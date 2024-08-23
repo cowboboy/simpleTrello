@@ -18,9 +18,6 @@ export class User extends Model{
     )
     password: string;
 
-    @Column
-    jwtToken: string;
-
     @HasMany(() => Column1)
     columns: Column1[];
 }
