@@ -33,4 +33,19 @@ export class UsersController {
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }
+
+  @Get(':id/columns')
+  findUserColumns(@Param('id') id: string) {
+    return this.usersService.findUserColumns(+id);
+  }
+
+  @Get(':id/cards')
+  findUserCards(@Param('id') id: string) {
+    return this.usersService.findUserCards(+id);
+  }
+
+  @Get(':id/comments')
+  findUserComments(@Param('id') id: string) {
+    return this.usersService.findUserComments(+id);
+  }
 }

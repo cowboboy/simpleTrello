@@ -22,13 +22,17 @@ export class ColumnsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.columnsService.findOne(+id);
+  findOne(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
+    return this.columnsService.findOne(+id, user);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateColumnDto: UpdateColumnDto) {
-    return this.columnsService.update(+id, updateColumnDto);
+  update(
+    @Param('id') id: string, 
+    @Body() updateColumnDto: UpdateColumnDto,
+    @CurrentUser() user: JwtPayload
+  ) {
+    return this.columnsService.update(+id, updateColumnDto, user);
   }
 
   @Delete(':id')

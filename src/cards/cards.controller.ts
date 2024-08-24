@@ -2,6 +2,8 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
+import { CurrentUser } from 'src/decorators/current-user.decorator';
+import { JwtPayload } from 'src/auth/interfaces/auth.interface';
 
 @Controller('cards')
 export class CardsController {
@@ -18,17 +20,21 @@ export class CardsController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cardsService.findOne(+id);
+  findOne(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
+    return this.cardsService.findOne(+id, user);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCardDto: UpdateCardDto) {
-    return this.cardsService.update(+id, updateCardDto);
+  update(
+    @Param('id') id: string, 
+    @Body() updateCardDto: UpdateCardDto, 
+    @CurrentUser() user: JwtPayload
+  ) {
+    return this.cardsService.update(+id, updateCardDto, user);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cardsService.remove(+id);
+  remove(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
+    return this.cardsService.remove(+id, user);
   }
 }

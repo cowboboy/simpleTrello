@@ -1,4 +1,4 @@
-import { ForbiddenException, Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateColumnDto } from './dto/create-column.dto';
 import { UpdateColumnDto } from './dto/update-column.dto';
 import { Column1 } from './entities/column.entity';
@@ -20,7 +20,9 @@ export class ColumnsService {
     return await this.column1Model.findAll();
   }
 
-  async findOne(id: number) {
+  async findOne(id: number, user: JwtPayload) {
+    await this.checkAuthor(id, user)
+    
     return await this.column1Model.findOne({
       where: {
         id
@@ -28,17 +30,27 @@ export class ColumnsService {
     });
   }
 
-  async update(id: number, updateColumnDto: UpdateColumnDto) {
-    const column = await this.column1Model.findOne({
+  async update(id: number, updateColumnDto: UpdateColumnDto, user: JwtPayload) {
+    await this.checkAuthor(id, user)
+
+    return await this.column1Model.update({...updateColumnDto}, {
       where: {
         id
       }
     })
-    column.title = updateColumnDto.title
-    return await column.save();
   }
 
   async remove(id: number, user: JwtPayload) {
+    await this.checkAuthor(id, user)
+
+    return await this.column1Model.destroy({
+      where: {
+        id
+      }
+    });
+  }
+
+  async checkAuthor(id: number, user: JwtPayload) {
     const column = await this.column1Model.findOne({
       where: 
       {
@@ -46,10 +58,12 @@ export class ColumnsService {
       }
     })
 
+    if (!column) {
+      throw new BadRequestException('There is no column with this id')
+    }
+
     if (user && user.sub != column.userId) {
       throw new ForbiddenException('You cant do this action')
     }
-
-    return await column.destroy();
   }
 }

@@ -1,4 +1,4 @@
-import { Column, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
+import { AllowNull, Column, ForeignKey, HasMany, Model, Table } from "sequelize-typescript";
 import { Column1 } from "src/columns/entities/column.entity";
 import { Comment } from "src/comments/entities/comment.entity";
 
@@ -8,6 +8,9 @@ export class Card extends Model {
     title: string;
 
     @ForeignKey(() => Column1)
+    @Column({
+        allowNull: false
+    })
     columnId: number;
 
     @HasMany(() => Comment)

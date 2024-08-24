@@ -1,4 +1,4 @@
-import { Column, ForeignKey, Model, Table } from "sequelize-typescript";
+import { AllowNull, Column, ForeignKey, Model, Table } from "sequelize-typescript";
 import { Card } from "src/cards/entities/card.entity";
 
 @Table
@@ -7,6 +7,8 @@ export class Comment extends Model {
     title: string;
 
     @ForeignKey(() => Card)
-    @Column
+    @Column({
+        allowNull: false
+    })
     cardId: number;
 }

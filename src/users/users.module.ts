@@ -5,12 +5,15 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { User } from './entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { Column1 } from 'src/columns/entities/column.entity';
+import { Card } from 'src/cards/entities/card.entity';
+import { Comment } from 'src/comments/entities/comment.entity';
 
 @Module({
   controllers: [UsersController],
   providers: [UsersService, JwtService, ConfigService],
   imports: [
-    SequelizeModule.forFeature([User]),
+    SequelizeModule.forFeature([User, Card, Column1, Comment]),
   ],
   exports: [UsersService]
 })
