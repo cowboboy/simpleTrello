@@ -13,6 +13,11 @@ export class Card extends Model {
     })
     columnId: number;
 
+    @Column({
+        allowNull: false
+    })
+    userId: number;
+
     @HasMany(() => Comment)
     comments: Comment[];
 }

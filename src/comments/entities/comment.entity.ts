@@ -11,4 +11,9 @@ export class Comment extends Model {
         allowNull: false
     })
     cardId: number;
+
+    @Column({
+        allowNull: false
+    })
+    userId: number;
 }

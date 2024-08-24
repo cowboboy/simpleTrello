@@ -40,4 +40,9 @@ export class ColumnsController {
   remove(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
     return this.columnsService.remove(+id, user);
   }
+
+  @Get(':id/cards')
+  findColumnCards(@Param('id') id: string) {
+    return this.columnsService.findColumnCards(+id);
+  }
 }

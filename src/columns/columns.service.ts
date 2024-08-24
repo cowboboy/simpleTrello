@@ -4,10 +4,14 @@ import { UpdateColumnDto } from './dto/update-column.dto';
 import { Column1 } from './entities/column.entity';
 import { InjectModel } from '@nestjs/sequelize';
 import { JwtPayload } from 'src/auth/interfaces/auth.interface';
+import { Card } from 'src/cards/entities/card.entity';
 
 @Injectable()
 export class ColumnsService {
-  constructor(@InjectModel(Column1) private readonly column1Model: typeof Column1) {}
+  constructor(
+    @InjectModel(Column1) private readonly column1Model: typeof Column1,
+    @InjectModel(Card) private readonly cardModel: typeof Card,
+  ) {}
 
   async create(createColumnDto: CreateColumnDto) {
     const newColumn = await this.column1Model.create({
@@ -22,7 +26,7 @@ export class ColumnsService {
 
   async findOne(id: number, user: JwtPayload) {
     await this.checkAuthor(id, user)
-    
+
     return await this.column1Model.findOne({
       where: {
         id
@@ -48,6 +52,10 @@ export class ColumnsService {
         id
       }
     });
+  }
+
+  async findColumnCards(id: number) {
+    return await this.cardModel.findAll({where: {columnId: id}})
   }
 
   async checkAuthor(id: number, user: JwtPayload) {

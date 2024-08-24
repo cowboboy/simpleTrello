@@ -81,4 +81,8 @@ export class CardsService {
       throw new ForbiddenException('You cant do this action')
     }
   }
+
+  async findCardCards(id: number) {
+    return await this.cardsModel.findAll({where: {cardId: id}})
+  }
 }

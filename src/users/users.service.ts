@@ -5,6 +5,7 @@ import { User } from './entities/user.entity';
 import { InjectModel } from '@nestjs/sequelize';
 import { Card } from 'src/cards/entities/card.entity';
 import { Comment } from 'src/comments/entities/comment.entity';
+import { Column1 } from 'src/columns/entities/column.entity';
 
 @Injectable()
 export class UsersService {
@@ -12,6 +13,7 @@ export class UsersService {
     @InjectModel(User) private readonly userModel: typeof User,
     @InjectModel(Card) private readonly cardModel: typeof Card,
     @InjectModel(Comment) private readonly commentModel: typeof Comment,
+    @InjectModel(Column1) private readonly column1Model: typeof Column1
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -57,14 +59,32 @@ export class UsersService {
   }
 
   async findUserColumns(id: number) {
-    return
+    const columns = await this.column1Model.findAll({
+      where: {
+        	userId: id
+      }
+    }) 
+
+    return columns
   }
 
   async findUserCards(id: number) {
-    return
+    const cards = await this.cardModel.findAll({
+      where: {
+        	userId: id
+      }
+    }) 
+
+    return cards
   }
 
-  async findUserComments(id: number) {
-    return
-  }
+  async findUserComments(id: number) { 
+    const comments = await this.commentModel.findAll({
+      where: {
+        	userId: id
+      }
+    }) 
+
+    return comments
+  } 
 }

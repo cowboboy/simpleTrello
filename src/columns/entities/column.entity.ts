@@ -8,7 +8,9 @@ export class Column1 extends Model{
     title: string;
 
     @ForeignKey(() => User)
-    @Column
+    @Column({
+        allowNull: false
+    })
     userId: number;
 
     @HasMany(() => Card)

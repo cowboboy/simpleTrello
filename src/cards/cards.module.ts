@@ -9,7 +9,7 @@ import { Card } from './entities/card.entity';
   controllers: [CardsController],
   providers: [CardsService],
   imports: [
-    SequelizeModule.forFeature([Card, Column1])
+    SequelizeModule.forFeature([Card, Column1, Comment])
   ]
 })
 export class CardsModule {}

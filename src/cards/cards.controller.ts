@@ -37,4 +37,9 @@ export class CardsController {
   remove(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
     return this.cardsService.remove(+id, user);
   }
+
+  @Get(':id/comments')
+  findCardComments(@Param('id') id: string) {
+    return this.cardsService.findCardCards(+id);
+  }
 }
