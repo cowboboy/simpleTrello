@@ -1,26 +1,55 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateColumnDto } from './dto/create-column.dto';
 import { UpdateColumnDto } from './dto/update-column.dto';
+import { Column1 } from './entities/column.entity';
+import { InjectModel } from '@nestjs/sequelize';
+import { JwtPayload } from 'src/auth/interfaces/auth.interface';
 
 @Injectable()
 export class ColumnsService {
-  create(createColumnDto: CreateColumnDto) {
-    return 'This action adds a new column';
+  constructor(@InjectModel(Column1) private readonly column1Model: typeof Column1) {}
+
+  async create(createColumnDto: CreateColumnDto) {
+    const newColumn = await this.column1Model.create({
+      ...createColumnDto
+    })
+    return newColumn;
   }
 
-  findAll() {
-    return `This action returns all columns`;
+  async findAll() {
+    return await this.column1Model.findAll();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} column`;
+  async findOne(id: number) {
+    return await this.column1Model.findOne({
+      where: {
+        id
+      }
+    });
   }
 
-  update(id: number, updateColumnDto: UpdateColumnDto) {
-    return `This action updates a #${id} column`;
+  async update(id: number, updateColumnDto: UpdateColumnDto) {
+    const column = await this.column1Model.findOne({
+      where: {
+        id
+      }
+    })
+    column.title = updateColumnDto.title
+    return await column.save();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} column`;
+  async remove(id: number, user: JwtPayload) {
+    const column = await this.column1Model.findOne({
+      where: 
+      {
+        id
+      }
+    })
+
+    if (user && user.sub != column.userId) {
+      throw new ForbiddenException('You cant do this action')
+    }
+
+    return await column.destroy();
   }
 }
