@@ -22,7 +22,6 @@ export class UsersController {
   }
 
   @Get()
-  @UseGuards(AuthGuard)
   @ApiOperation({ summary: "Get all users" })
   @ApiResponse({ status: HttpStatus.OK, description: "Success", type: Array<User>})
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: "Bad Request" })
