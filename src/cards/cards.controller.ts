@@ -14,11 +14,6 @@ export class CardsController {
     return this.cardsService.create(createCardDto);
   }
 
-  @Get()
-  findAll() {
-    return this.cardsService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
     return this.cardsService.findOne(+id, user);

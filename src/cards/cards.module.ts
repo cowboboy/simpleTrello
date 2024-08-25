@@ -4,6 +4,7 @@ import { CardsController } from './cards.controller';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { Column1 } from 'src/columns/entities/column.entity';
 import { Card } from './entities/card.entity';
+import { Comment } from 'src/comments/entities/comment.entity';
 
 @Module({
   controllers: [CardsController],

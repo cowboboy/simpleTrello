@@ -16,11 +16,6 @@ export class ColumnsController {
     return this.columnsService.create(createColumnDto);
   }
 
-  @Get()
-  findAll() {
-    return this.columnsService.findAll();
-  }
-
   @Get(':id')
   findOne(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
     return this.columnsService.findOne(+id, user);
