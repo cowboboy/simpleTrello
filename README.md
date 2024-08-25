@@ -16,8 +16,10 @@ $ npm install
 
 2. Создайте в директории src файл .env с содержимым 
 
-`DATABASE_URL="postgresql://your_server_name:your_password@your_host:your_port/your_database_name?schema=public"
-JWT_SECRET_KEY="your_key"`
+```
+DATABASE_URL="postgresql://your_server_name:your_password@your_host:your_port/your_database_name?schema=public"
+JWT_SECRET_KEY="your_key"
+```
 
 3. Запустите сервер PostgreSql
 
