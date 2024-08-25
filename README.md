@@ -44,7 +44,7 @@ $ npm run start:prod
 1. Создайте в директории src файл .env с содержимым 
 
 ```
-DATABASE_URL="postgresql://your_server_name:your_password@your_host:your_port/your_database_name?schema=public"
+DATABASE_URL="postgresql://postgres:postgres@db:5432/postgres?schema=public"
 JWT_SECRET_KEY="your_key"
 ```
 
