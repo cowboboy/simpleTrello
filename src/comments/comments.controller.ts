@@ -4,7 +4,7 @@ import { CreateCommentDto } from './dto/create-comment.dto';
 import { UpdateCommentDto } from './dto/update-comment.dto';
 import { JwtPayload } from 'src/auth/interfaces/auth.interface';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { Comment } from './entities/comment.entity';
 
@@ -28,6 +28,7 @@ export class CommentsController {
   @ApiResponse({ status: HttpStatus.OK, description: "Success", type: Comment})
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: "Bad Request" })
   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: "Forbidden" })
+  @ApiBearerAuth('JWT-auth')
   findOne(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
     return this.commentsService.findOne(+id, user);
   }
@@ -39,6 +40,7 @@ export class CommentsController {
   @ApiResponse({ status: HttpStatus.OK, description: "Success", type: Comment})
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: "Bad Request" })
   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: "Forbidden" })
+  @ApiBearerAuth('JWT-auth')
   update(
     @Param('id') id: string, 
     @Body() updateCommentDto: UpdateCommentDto, 
@@ -54,6 +56,7 @@ export class CommentsController {
   @ApiResponse({ status: HttpStatus.OK, description: "Success", type: Comment})
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: "Bad Request" })
   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: "Forbidden" })
+  @ApiBearerAuth('JWT-auth')
   remove(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
     return this.commentsService.remove(+id, user);
   }

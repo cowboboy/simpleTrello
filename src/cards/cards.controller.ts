@@ -4,7 +4,7 @@ import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
 import { JwtPayload } from 'src/auth/interfaces/auth.interface';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Card } from './entities/card.entity';
 
 @ApiTags('Cards')
@@ -26,6 +26,7 @@ export class CardsController {
   @ApiResponse({ status: HttpStatus.OK, description: "Success", type: Card})
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: "Bad Request" })
   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: "Forbidden" })
+  @ApiBearerAuth('JWT-auth')
   findOne(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
     return this.cardsService.findOne(+id, user);
   }
@@ -36,6 +37,7 @@ export class CardsController {
   @ApiResponse({ status: HttpStatus.OK, description: "Success", type: Card})
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: "Bad Request" })
   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: "Forbidden" })
+  @ApiBearerAuth('JWT-auth')
   update(
     @Param('id') id: string, 
     @Body() updateCardDto: UpdateCardDto, 
@@ -50,6 +52,7 @@ export class CardsController {
   @ApiResponse({ status: HttpStatus.OK, description: "Success", type: Card})
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: "Bad Request" })
   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: "Forbidden" })
+  @ApiBearerAuth('JWT-auth')
   remove(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
     return this.cardsService.remove(+id, user);
   }

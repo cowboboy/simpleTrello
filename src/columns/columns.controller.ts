@@ -5,7 +5,7 @@ import { UpdateColumnDto } from './dto/update-column.dto';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { CurrentUser } from 'src/decorators/current-user.decorator';
 import { JwtPayload } from 'src/auth/interfaces/auth.interface';
-import { ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiParam, ApiResponse, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { Column1 } from './entities/column.entity';
 
 @ApiTags('Columns')
@@ -28,6 +28,7 @@ export class ColumnsController {
   @ApiResponse({ status: HttpStatus.OK, description: "Success", type: Column1 })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: "Bad Request" })
   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: "Forbidden" })
+  @ApiBearerAuth('JWT-auth')
   findOne(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
     return this.columnsService.findOne(+id, user);
   }
@@ -39,6 +40,7 @@ export class ColumnsController {
   @ApiResponse({ status: HttpStatus.OK, description: "Success", type: Column1 })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: "Bad Request" })
   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: "Forbidden" })
+  @ApiBearerAuth('JWT-auth')
   update(
     @Param('id') id: string, 
     @Body() updateColumnDto: UpdateColumnDto,
@@ -54,6 +56,7 @@ export class ColumnsController {
   @ApiResponse({ status: HttpStatus.OK, description: "Success", type: Boolean})
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: "Bad Request" })
   @ApiResponse({ status: HttpStatus.FORBIDDEN, description: "Forbidden" })
+  @ApiBearerAuth('JWT-auth')
   remove(@Param('id') id: string, @CurrentUser() user: JwtPayload) {
     return this.columnsService.remove(+id, user);
   }
